@@ -11,12 +11,19 @@ export default function Home() {
   const video3Element = useRef(null)
 
   const [activeVideo, setActiveVideo] = useState(1)
-  const random = Math.floor(Math.random() * (1196 - 0 + 1)) + 0
+  const [randomPoint, setRandomPoint] = useState(
+    Math.floor(Math.random() * (19 - 0 + 1)) + 0
+  )
+  const [clicked, setClicked] = useState(0)
+  // const random = Math.floor(Math.random() * (1196 - 0 + 1)) + 0
 
   // check if is mobile
 
+  // useEffect(() => {
+  //   setRandomPoint(Math.floor(Math.random() * (19 - 0 + 1)) + 0)
+  // }, [randomPoint])
+
   useEffect(() => {
-    console.log(random)
     const script = document.createElement('script')
 
     script.src = 'https://player.vimeo.com/api/player.js'
@@ -29,21 +36,55 @@ export default function Home() {
     }
   }, [])
 
+  function switchOnClick() {
+    if (clicked === 0) {
+      const player = new Vimeo.Player(video1Element.current)
+      player.setMuted(false)
+      unmuteRef.current.style.display = 'none'
+      setClicked(1)
+    } else {
+      if (activeVideo === 1) {
+        setActiveVideo(2)
+        mute(video1Element.current)
+        unmute(video2Element.current)
+      } else if (activeVideo === 2) {
+        setActiveVideo(3)
+        mute(video2Element.current)
+        unmute(video3Element.current)
+      } else if (activeVideo === 3) {
+        setActiveVideo(1)
+        mute(video3Element.current)
+        unmute(video1Element.current)
+      }
+    }
+  }
+
   useEffect(() => {
-    document.body.onkeyup = function (e) {
-      if (e.key == ' ' || e.code == 'Space') {
-        if (activeVideo === 1) {
-          setActiveVideo(2)
-          mute(video1Element.current)
-          unmute(video2Element.current)
-        } else if (activeVideo === 2) {
-          setActiveVideo(3)
-          mute(video2Element.current)
-          unmute(video3Element.current)
-        } else if (activeVideo === 3) {
-          setActiveVideo(1)
-          mute(video3Element.current)
-          unmute(video1Element.current)
+    if (window.innerWidth <= 600) {
+      document.body.addEventListener('click', switchOnClick, true)
+    } else {
+      document.body.onkeyup = function (e) {
+        if (clicked === 0) {
+          const player = new Vimeo.Player(video1Element.current)
+          player.setMuted(false)
+          unmuteRef.current.style.display = 'none'
+          setClicked(1)
+        } else {
+          if (e.key == ' ' || e.code == 'Space') {
+            if (activeVideo === 1) {
+              setActiveVideo(2)
+              mute(video1Element.current)
+              unmute(video2Element.current)
+            } else if (activeVideo === 2) {
+              setActiveVideo(3)
+              mute(video2Element.current)
+              unmute(video3Element.current)
+            } else if (activeVideo === 3) {
+              setActiveVideo(1)
+              mute(video3Element.current)
+              unmute(video1Element.current)
+            }
+          }
         }
       }
     }
@@ -64,12 +105,13 @@ export default function Home() {
     <div className={styles.container}>
       <div
         ref={unmuteRef}
-        onClick={() => unmute(video1Element.current)}
+        // onClick={() => unmute(video1Element.current)}
         className={styles.startScreen}
       >
-        <h1>Meijendel to Wassenaarseslag: 00.40-1am</h1>
-        <p>Press space bar / tap to change view</p>
-        <p>Click anywhere to begin</p>
+        <div className={styles.text}>
+          <h1>Meijendel to Wassenaarseslag: 00.40-1am</h1>
+          <p>Press space / tap to change view</p>
+        </div>
       </div>
       <div
         className={styles.iframeWrapper}
@@ -78,7 +120,7 @@ export default function Home() {
       >
         <iframe
           ref={video1Element}
-          src={`https://player.vimeo.com/video/734126534?background=1&autoplay=1&loop=1&byline=0&title=0#t=${random}s`}
+          src={`https://player.vimeo.com/video/734126534?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomPoint}m0s`}
           allowFullScreen
           allow='autoplay'
         ></iframe>
@@ -90,7 +132,7 @@ export default function Home() {
       >
         <iframe
           ref={video2Element}
-          src={`https://player.vimeo.com/video/778786292?background=1&autoplay=1&loop=1&byline=0&title=0#t=${random}s`}
+          src={`https://player.vimeo.com/video/778786292?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomPoint}m0s`}
           allowFullScreen
           allow='autoplay'
         ></iframe>
@@ -102,7 +144,7 @@ export default function Home() {
       >
         <iframe
           ref={video3Element}
-          src={`https://player.vimeo.com/video/778788949?background=1&autoplay=1&loop=1&byline=0&title=0#t=${random}s`}
+          src={`https://player.vimeo.com/video/778788949?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomPoint}m0s`}
           allowFullScreen
           allow='autoplay'
         ></iframe>
