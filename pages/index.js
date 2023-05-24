@@ -11,17 +11,27 @@ export default function Home() {
   const video3Element = useRef(null)
 
   const [activeVideo, setActiveVideo] = useState(1)
-  const [randomPoint, setRandomPoint] = useState(
+  const [randomMinute, setRandomMinute] = useState(
     Math.floor(Math.random() * (19 - 0 + 1)) + 0
   )
+  const [randomSecond, setRandomSecond] = useState(
+    Math.floor(Math.random() * (59 - 0 + 1)) + 0
+  )
   const [clicked, setClicked] = useState(0)
-  // const random = Math.floor(Math.random() * (1196 - 0 + 1)) + 0
+  // const [isLoaded, setIsLoaded] = useState(false)
 
-  // check if is mobile
+  // function loadFunction() {
+  //   setTimeout(() => {
+  //     setIsLoaded(true)
+  //   }, 3000)
+  // }
 
   // useEffect(() => {
-  //   setRandomPoint(Math.floor(Math.random() * (19 - 0 + 1)) + 0)
-  // }, [randomPoint])
+  //   video1Element.current.addEventListener('load', loadFunction)
+  //   return () => {
+  //     video1Element.current.removeEventListener('load', loadFunction)
+  //   }
+  // }, [video1Element])
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -120,7 +130,7 @@ export default function Home() {
       >
         <iframe
           ref={video1Element}
-          src={`https://player.vimeo.com/video/734126534?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomPoint}m0s`}
+          src={`https://player.vimeo.com/video/734126534?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomMinute}m${randomSecond}s`}
           allowFullScreen
           allow='autoplay'
         ></iframe>
@@ -132,7 +142,7 @@ export default function Home() {
       >
         <iframe
           ref={video2Element}
-          src={`https://player.vimeo.com/video/778786292?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomPoint}m0s`}
+          src={`https://player.vimeo.com/video/778786292?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomMinute}m${randomSecond}s`}
           allowFullScreen
           allow='autoplay'
         ></iframe>
@@ -144,7 +154,7 @@ export default function Home() {
       >
         <iframe
           ref={video3Element}
-          src={`https://player.vimeo.com/video/778788949?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomPoint}m0s`}
+          src={`https://player.vimeo.com/video/778788949?background=1&autoplay=1&loop=1&byline=0&title=0#t=${randomMinute}m${randomSecond}s`}
           allowFullScreen
           allow='autoplay'
         ></iframe>
